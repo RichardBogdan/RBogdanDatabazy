@@ -34,3 +34,5 @@ CREATE Table orders
 SELECT * FROM customers;
 SELECT * FROM products;
 SELECT * FROM orders;
+
+SELECT product_ID FROM products;
