@@ -12,3 +12,7 @@ SELECT orders.order_id, customers.customer_name, products.category, orders.sales
 INNER JOIN customers ON orders.customer_id = customers.customer_id
 INNER JOIN products ON orders.product_id = products.product_id;
 
+/*Úloha 3*/
+SELECT customers.region, SUM(orders.sales) FROM customers
+INNER JOIN orders ON customers.customer_id = orders.customer_id
+GROUP BY customers.region;
