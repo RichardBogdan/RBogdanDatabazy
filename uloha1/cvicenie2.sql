@@ -21,3 +21,7 @@ GROUP BY customers.region;
 SELECT products.sub_category sc, SUM(orders.sales) sos FROM products
 LEFT JOIN orders on products.product_id = orders.product_id
 GROUP BY sc;
+
+/*Úloha 6*/
+SELECT customers.customer_name, orders.order_id, orders.sales FROM orders
+FULL OUTER JOIN customers ON orders.customer_id = customers.customer_id;
