@@ -14,5 +14,10 @@ INNER JOIN products ON orders.product_id = products.product_id;
 
 /*Úloha 4*/
 SELECT customers.region, SUM(orders.sales) FROM customers
-INNER JOIN orders ON customers.customer_id = orders.customer_id
+LEFT JOIN orders ON customers.customer_id = orders.customer_id
 GROUP BY customers.region;
+
+/*Úloha 5*/
+SELECT products.sub_category sc, SUM(orders.sales) sos FROM products
+LEFT JOIN orders on products.product_id = orders.product_id
+GROUP BY sc;
