@@ -25,3 +25,8 @@ GROUP BY sc;
 /*Úloha 6*/
 SELECT customers.customer_name, orders.order_id, orders.sales FROM orders
 FULL OUTER JOIN customers ON orders.customer_id = customers.customer_id;
+
+/*Úloha 7*/
+SELECT customers.region, SUM(orders.sales) FROM customers               
+INNER JOIN orders ON customers.customer_id = orders.customer_id
+GROUP BY customers.region;
