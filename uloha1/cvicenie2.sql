@@ -51,3 +51,16 @@ HAVING SUM(orders.sales) > 2000;
 SELECT customers.region,SUM(orders.sales), AVG(orders.discount), COUNT(orders.sales) FROM orders
 INNER JOIN customers ON orders.customer_id = customers.customer_id
 GROUP BY customers.region;
+
+/*Úloha 12*/
+
+SELECT customers.region, COUNT(CASE 
+    WHEN orders.sales > 1000 THEN orders.sales
+END) AS "High-value",
+COUNT(CASE 
+    WHEN orders.sales <= 1000 THEN orders.sales
+END) AS "Low-value"  
+FROM customers
+INNER JOIN orders ON customers.customer_id = orders.customer_id
+GROUP BY customers.region;
+
