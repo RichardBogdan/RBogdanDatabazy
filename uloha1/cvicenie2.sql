@@ -40,3 +40,9 @@ GROUP BY customers.customer_name;
 SELECT products.sub_category, AVG(orders.discount) FROM products
 INNER JOIN orders ON products.product_id = orders.product_id
 GROUP BY products.sub_category;
+
+/*Úloha 10*/
+SELECT customers.customer_name, SUM(orders.sales) FROM customers
+INNER JOIN orders ON customers.customer_id = orders.customer_id
+GROUP BY customers.customer_name
+HAVING SUM(orders.sales) > 2000;
