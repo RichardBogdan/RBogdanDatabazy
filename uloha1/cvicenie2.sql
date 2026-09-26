@@ -64,3 +64,11 @@ FROM customers
 INNER JOIN orders ON customers.customer_id = orders.customer_id
 GROUP BY customers.region;
 
+/*Úloha 13*/
+SELECT customers.customer_name, SUM(orders.sales), AVG(orders.discount), COUNT(orders.order_id), CASE 
+    WHEN SUM(orders.sales) > 2500 THEN 'VIP'  
+    ELSE  'REGULAR'
+END AS "Skupiny " FROM customers
+INNER JOIN orders ON customers.customer_id = orders.customer_id
+GROUP BY customers.customer_name
+ORDER BY SUM(orders.sales) DESC;
