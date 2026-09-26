@@ -46,3 +46,8 @@ SELECT customers.customer_name, SUM(orders.sales) FROM customers
 INNER JOIN orders ON customers.customer_id = orders.customer_id
 GROUP BY customers.customer_name
 HAVING SUM(orders.sales) > 2000;
+
+/*Úloha 11*/
+SELECT customers.region,SUM(orders.sales), AVG(orders.discount), COUNT(orders.sales) FROM orders
+INNER JOIN customers ON orders.customer_id = customers.customer_id
+GROUP BY customers.region;
