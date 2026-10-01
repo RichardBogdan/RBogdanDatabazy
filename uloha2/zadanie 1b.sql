@@ -10,3 +10,6 @@ WHERE product_category = (SELECT product_category FROM flourmills_sales GROUP BY
 ORDER BY SUM(quantity_sold) DESC
 LIMIT 1)
 ORDER BY sales_id ASC;
+
+#Úloha 3
+SELECT product_name, total_amount, (SELECT AVG(total_amount) FROM flourmills_sales) as avg_amount FROM flourmills_sales;
