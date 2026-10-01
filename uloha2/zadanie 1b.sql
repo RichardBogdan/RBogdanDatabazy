@@ -21,3 +21,10 @@ SELECT product_name, total_amount, total_amount / (SELECT SUM(total_amount) FROM
 SELECT mesiac, monthly_sales FROM (
     SELECT EXTRACT(MONTH FROM sale_date) AS mesiac, SUM(total_amount) AS monthly_sales FROM flourmills_sales GROUP BY mesiac)
 ORDER BY mesiac ASC;
+
+#Úloha 6 
+SELECT * FROM (
+    SELECT product_category, SUM(total_amount) AS total_sales FROM flourmills_sales 
+    GROUP BY product_category)                                          /*nerozumiem asi zadaniu lebo vsetky su vyssie ako 50 000 000*/
+WHERE total_sales > 50000000
+ORDER BY product_category DESC;
