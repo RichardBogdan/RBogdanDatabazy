@@ -16,3 +16,8 @@ SELECT product_name, total_amount, (SELECT AVG(total_amount) FROM flourmills_sal
 
 #Úloha 4
 SELECT product_name, total_amount, total_amount / (SELECT SUM(total_amount) FROM flourmills_sales) AS amount_share FROM flourmills_sales;
+
+#Úloha 5
+SELECT mesiac, monthly_sales FROM (
+    SELECT EXTRACT(MONTH FROM sale_date) AS mesiac, SUM(total_amount) AS monthly_sales FROM flourmills_sales GROUP BY mesiac)
+ORDER BY mesiac ASC;
