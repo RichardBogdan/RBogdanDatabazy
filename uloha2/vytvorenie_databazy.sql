@@ -1,0 +1,2 @@
+CREATE DATABASE datacraftinglab_db;
+
