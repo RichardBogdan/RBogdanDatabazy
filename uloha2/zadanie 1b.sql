@@ -28,3 +28,11 @@ SELECT * FROM (
     GROUP BY product_category)                                          /*nerozumiem asi zadaniu lebo vsetky su vyssie ako 50 000 000*/
 WHERE total_sales > 50000000
 ORDER BY product_category DESC;
+
+#Úloha 7
+SELECT f1.product_name, f1.product_category, f1.total_amount FROM flourmills_sales AS f1
+WHERE f1.total_amount > (
+    SELECT AVG(f2.total_amount) FROM flourmills_sales AS f2         
+    WHERE f2.product_category = f1.product_category);
+
+
