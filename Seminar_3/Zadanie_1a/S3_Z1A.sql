@@ -45,3 +45,9 @@ ON orders(customer_id,order_date);
 SELECT * FROM orders
 INNER JOIN customers ON orders.customer_id = customers.customer_id
 WHERE customers.region = 'West' AND order_date >= '2024-01-01';
+
+#Úloha 7
+EXPLAIN ANALYZE
+SELECT *
+FROM orders
+WHERE customer_id = 'C001';
