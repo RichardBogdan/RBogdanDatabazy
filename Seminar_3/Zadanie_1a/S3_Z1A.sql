@@ -38,3 +38,10 @@ ON orders(order_date);
 SELECT DATE_TRUNC('month', order_date) AS month, SUM(sales) FROM orders
 GROUP BY DATE_TRUNC('month', order_date)
 ORDER BY DATE_TRUNC('month', order_date) ASC;
+
+#Úloha 6
+CREATE INDEX idx_orders_region_category
+ON orders(customer_id,order_date);
+SELECT * FROM orders
+INNER JOIN customers ON orders.customer_id = customers.customer_id
+WHERE customers.region = 'West' AND order_date >= '2024-01-01';
