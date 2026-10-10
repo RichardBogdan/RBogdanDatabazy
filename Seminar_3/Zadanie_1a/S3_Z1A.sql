@@ -10,3 +10,14 @@ GROUP BY customers.customer_id
 HAVING SUM(orders.sales) > 2000;
 
 SELECT * FROM high_value_customers;
+
+#Uloha 2
+CREATE VIEW regional_monthly_sales AS
+SELECT customers.region, DATE_TRUNC('month', order_date) AS month, SUM(orders.sales) AS regional_monthly_sales FROM customers
+INNER JOIN orders ON customers.customer_id = orders.customer_id
+GROUP BY customers.region, DATE_TRUNC('month', order_date)
+
+SELECT * FROM regional_monthly_sales
+WHERE region = 'West'
+
+
