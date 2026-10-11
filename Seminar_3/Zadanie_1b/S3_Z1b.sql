@@ -66,3 +66,24 @@ SELECT customer_type,
        revenue_percentage
 FROM druhe
 ORDER BY revenue DESC;
+
+#Úloha 5
+WITH tab AS (
+    SELECT customer_id,
+        product_name,
+        sale_date,
+        total_amount,
+        ROW_NUMBER() OVER (
+            PARTITION BY customer_id
+            ORDER BY sale_date DESC
+        ) AS rn
+    FROM flourmills_sales
+)
+SELECT customer_id,
+       product_name,
+       sale_date,
+       total_amount
+FROM tab
+WHERE rn = 1
+ORDER BY customer_id ASC
+LIMIT 5;
