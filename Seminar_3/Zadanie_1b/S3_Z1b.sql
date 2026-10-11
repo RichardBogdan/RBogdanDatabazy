@@ -87,3 +87,22 @@ FROM tab
 WHERE rn = 1
 ORDER BY customer_id ASC
 LIMIT 5;
+
+#Úloha 6
+WITH RECURSIVE cte AS(
+    SELECT MIN(sale_date) AS mini, MAX(sale_date) AS maxi FROM flourmills_sales
+), 
+rcte AS (
+    SELECT mini AS n FROM cte
+
+    UNION ALL
+
+    SELECT r.n + 1
+    FROM rcte r
+    CROSS JOIN cte c
+    WHERE r.n < c.maxi
+
+)
+SELECT *
+FROM rcte;
+
