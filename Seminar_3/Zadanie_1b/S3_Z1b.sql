@@ -44,3 +44,25 @@ FROM ranked_products
 WHERE category_rank <= 3
 ORDER BY product_category, category_rank
 LIMIT 10;
+
+#Úloha 4
+
+WITH prve AS (
+    SELECT customer_type,
+           SUM(total_amount) AS revenue
+    FROM flourmills_sales
+    GROUP BY customer_type
+),
+druhe AS (
+    SELECT customer_type,
+           revenue,
+           SUM(revenue) OVER () AS total_revenue,
+           ROUND(revenue * 100.0 / SUM(revenue) OVER (), 2) AS revenue_percentage
+    FROM prve
+)
+SELECT customer_type,
+       revenue,
+       total_revenue,
+       revenue_percentage
+FROM druhe
+ORDER BY revenue DESC;
