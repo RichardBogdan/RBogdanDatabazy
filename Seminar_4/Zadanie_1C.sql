@@ -11,7 +11,7 @@ ORDER BY customer_id ASC;   /*idcko, kvantita(dogabana zas) a xtelkovy pocet nak
 SELECT customer_id, quantity, SUM(quantity) OVER() AS total_quantity FROM retail_sales
 ORDER BY customer_id ASC;   /*idcko, kvantita??(dogabana) a celkovy pocet nakupanej kvantity*/
 
-#Úloha 1
+#Úloha 2
 SELECT customer_id, 
         invoice_no, 
         invoice_date, 
@@ -26,7 +26,7 @@ SELECT customer_id,
     WHERE customer_id IS NOT NULL
     ORDER BY customer_id, invoice_date;
 
-#Úloha 2
+#Úloha 3
 SELECT stock_code, 
         country, 
         invoice_date, 
