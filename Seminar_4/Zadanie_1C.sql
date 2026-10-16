@@ -66,3 +66,28 @@ SELECT customer_id,
 FROM s_nasledujucou
 WHERE next_invoice_date IS NOT NULL
 ORDER BY days_to_next_invoice DESC;
+
+#Úloha 5
+WITH tab AS (
+    SELECT stock_code,
+        invoice_no, 
+        invoice_date,
+        LAG(unit_price,1) OVER(
+            PARTITION BY stock_code
+            ORDER BY invoice_date ASC
+        ) AS previous_price,
+        LAG(unit_price,0) OVER(
+            PARTITION BY stock_code
+            ORDER BY invoice_date ASC
+        ) AS current_price
+    FROM retail_sales
+)
+SELECT stock_code,
+        invoice_no, 
+        invoice_date,
+        previous_price,
+        current_price, 
+        current_price - previous_price AS price_difference
+    FROM tab
+    WHERE previous_price IS NOT NULL AND previous_price != current_price
+    ORDER BY invoice_no ASC;
