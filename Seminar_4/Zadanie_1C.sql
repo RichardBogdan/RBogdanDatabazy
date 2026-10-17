@@ -152,3 +152,19 @@ WHERE rn = 1
 ORDER BY customer_id ASC;
 
 #Úloha 9
+WITH tab AS(
+    SELECT 
+        invoice_no,
+        stock_code,
+        description,
+        quantity,
+        unit_price,
+        quantity * unit_price AS amount,
+        ROW_NUMBER() OVER(
+            PARTITION BY invoice_no
+            ORDER BY quantity * unit_price DESC
+        ) AS row_num
+        FROM retail_sales
+)
+SELECT * FROM tab
+WHERE row_num BETWEEN 1 AND 3; 
