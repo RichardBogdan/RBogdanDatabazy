@@ -20,7 +20,30 @@ tab2 AS (
            ) AS rn
     FROM tab
 )
-SELECT meno, orderID, datum, rn
+SELECT meno, orderID, datum
 FROM tab2
 WHERE rn <= 2
 ORDER BY meno, rn;
+
+#Úloha 2
+WITH tab1 AS (
+    SELECT cu.region,
+           cu.customer_name,
+           SUM(o.profit) AS total_profit
+    FROM customers AS cu
+    INNER JOIN orders AS o ON cu.customer_id = o.customer_id
+    GROUP BY cu.region, cu.customer_name
+)
+SELECT region,
+       customer_name,
+       total_profit,
+       RANK() OVER (
+           PARTITION BY region
+           ORDER BY total_profit DESC
+       ) AS profit_rank,
+       DENSE_RANK() OVER (
+           PARTITION BY region
+           ORDER BY total_profit DESC
+       ) AS profit_dense_rank
+FROM tab1
+ORDER BY region, profit_rank, customer_name;
