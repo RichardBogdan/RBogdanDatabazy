@@ -168,3 +168,30 @@ WITH tab AS(
 )
 SELECT * FROM tab
 WHERE row_num BETWEEN 1 AND 3; 
+
+#Úloha 10
+
+WITH tab AS(
+    SELECT 
+        country, 
+        DATE_TRUNC('month',invoice_date) AS month, 
+        customer_id, 
+        SUM(unit_price * quantity) AS total_amount
+    FROM retail_sales
+    GROUP BY country,DATE_TRUNC('month',invoice_date),customer_id
+),
+d_ranked AS (SELECT 
+    country, 
+    month, 
+    customer_id, 
+    total_amount,
+    DENSE_RANK() OVER(
+        PARTITION BY country, month
+        ORDER BY total_amount DESC
+    ) AS sales_rank
+FROM tab
+)
+SELECT country, month::date, customer_id, total_amount, sales_rank
+FROM d_ranked
+WHERE sales_rank BETWEEN 1 AND 5
+ORDER BY country, month, sales_rank, customer_id ;
