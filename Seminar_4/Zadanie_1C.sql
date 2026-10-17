@@ -180,7 +180,7 @@ WITH tab AS(
     FROM retail_sales
     GROUP BY country,DATE_TRUNC('month',invoice_date),customer_id
 ),
-d_ranked AS (SELECT 
+d_ranked AS (SELECT         /*musi byt koli tomu ako databaza vyhodnocuje dotaz*/
     country, 
     month, 
     customer_id, 
@@ -195,3 +195,21 @@ SELECT country, month::date, customer_id, total_amount, sales_rank
 FROM d_ranked
 WHERE sales_rank BETWEEN 1 AND 5
 ORDER BY country, month, sales_rank, customer_id ;
+
+#Úloha 11
+WITH tab AS(
+    SELECT
+        invoice_no,
+        stock_code,
+        description,
+        quantity,
+        unit_price,
+        DENSE_RANK() OVER(
+            PARTITION BY invoice_no
+            ORDER BY unit_price DESC
+        ) AS price_rank
+        FROM retail_sales
+)
+SELECT * FROM tab
+WHERE price_rank BETWEEN 1 AND 5
+ORDER BY invoice_no, price_rank, stock_code;
