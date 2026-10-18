@@ -47,3 +47,22 @@ SELECT region,
        ) AS profit_dense_rank
 FROM tab1
 ORDER BY region, profit_rank, customer_name;
+
+#Úloha 3
+WITH tab AS(
+    SELECT 
+        cu.customer_name,
+        SUM(o.sales) AS total_sales
+    FROM customers AS cu
+    INNER JOIN orders AS o ON cu.customer_id = o.customer_id
+    GROUP BY cu.customer_name
+),
+tab2 AS (
+    SELECT
+        *,
+        NTILE(4) OVER(
+            ORDER BY total_sales DESC
+        ) AS quartile
+    FROM tab
+)
+SELECT * FROM tab2;
