@@ -146,3 +146,4 @@ SELECT
 FROM tab2
 WHERE last_order_date < latest_order_date - INTERVAL '90 days'
 ORDER BY last_order_date ASC;
+
