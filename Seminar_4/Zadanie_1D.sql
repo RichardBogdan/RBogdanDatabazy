@@ -66,3 +66,24 @@ tab2 AS (
     FROM tab
 )
 SELECT * FROM tab2;
+
+#Úloha 4
+WITH tab AS(
+    SELECT 
+        DATE_TRUNC('month',order_date) AS month,
+        SUM(sales) AS monthly_sales 
+    FROM orders 
+    GROUP BY DATE_TRUNC('month',order_date)
+),
+tab2 AS(
+    SELECT 
+        *,
+        LAG(monthly_sales,1) OVER(
+            ORDER BY month 
+        ) AS prev_month_sales,
+        LEAD(monthly_sales,1) OVER(
+            ORDER BY month 
+        ) AS next_month_sales
+    FROM tab
+)
+SELECT * FROM tab2
