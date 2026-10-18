@@ -121,3 +121,28 @@ SELECT
         2
     ) AS pct_of_category
  FROM tab;
+
+#Úloha 6
+WITH tab AS (
+    SELECT 
+        cu.customer_id,
+        cu.customer_name,
+        o.order_date
+    FROM customers AS cu
+    INNER JOIN orders AS o ON cu.customer_id = o.customer_id
+),
+tab2 AS (
+    SELECT 
+        customer_id,
+        customer_name,
+        MAX(order_date) OVER (PARTITION BY customer_id) AS last_order_date,
+        MAX(order_date) OVER () AS latest_order_date
+    FROM tab
+)
+SELECT 
+    DISTINCT customer_id, 
+    customer_name, 
+    last_order_date
+FROM tab2
+WHERE last_order_date < latest_order_date - INTERVAL '90 days'
+ORDER BY last_order_date ASC;
