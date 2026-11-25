@@ -1,0 +1,92 @@
+-- Active: 1790255622640@@127.0.0.1@5432@movielens_elt@public
+CREATE DATABASE MOVIELENS_ELT;
+
+\set ON_ERROR_STOP on \encoding UTF8
+
+CREATE SCHEMA IF NOT EXISTS bronze;
+
+CREATE TABLE IF NOT EXISTS bronze.ratings(
+    id TEXT,
+    user_id TEXT,
+    movie_id TEXT,
+    rating TEXT,
+    rated_at TEXT,
+    _source_file TEXT DEFAULT 'ratings.csv',
+    _loaded_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS bronze.users(
+    id TEXT,
+    age TEXT,
+    gender TEXT,
+    ocupation_id TEXT,
+    zip_code TEXT,
+    _source_file TEXT DEFAULT 'users.csv',
+    _loaded_at TIMESTAMPTZ DEFAULT now()
+);
+
+--id,"title","release_year"
+
+CREATE TABLE IF NOT EXISTS bronze.movies(
+    id TEXT,
+    title TEXT,
+    release_year TEXT,
+    _source_file TEXT DEFAULT 'movies.csv',
+    _loaded_at TIMESTAMPTZ DEFAULT now()
+);
+
+--id,"name"
+
+
+CREATE TABLE IF NOT EXISTS bronze.occupations(
+    id TEXT,
+    name TEXT,
+    _source_file TEXT DEFAULT 'occupations.csv',
+    _loaded_at TIMESTAMPTZ DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS bronze.age_group(
+    id TEXT,
+    name TEXT,
+    _source_file TEXT DEFAULT 'age_group.csv',
+    _loaded_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS bronze.genres(
+    id TEXT,
+    name TEXT,
+    _source_file TEXT DEFAULT 'genres.csv',
+    _loaded_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS bronze.genres_movies(
+    id TEXT,
+    movie_id TEXT,
+    genre_id TEXT,
+    _source_file TEXT DEFAULT 'genres_movies.csv',
+    _loaded_at TIMESTAMPTZ DEFAULT now()
+);
+
+BEGIN;
+
+--TRUNCATE DROP;: stlpce zostanu iba data sa vymazu
+TRUNCATE bronze.ratings,
+bronze.users,
+bronze.movies,
+bronze.occupations,
+bronze.age_group,
+bronze.genres,
+bronze.genres_movies;
+
+\COPY bronze.ratings (id, movie_id, user_id, rating, rated_at) FROM 'data/ratings.csv' WITH (FORMAT CSV, HEADER TRUE)
+\COPY bronze.users (id, age, gender, ocupation_id, zip_code) FROM 'data/users.csv' WITH (FORMAT CSV, HEADER TRUE)
+\COPY bronze.movies (id, title, release_year) FROM 'data/movies.csv' WITH (FORMAT CSV, HEADER TRUE)
+\COPY bronze.occupations (id, name) FROM 'data/occupations.csv' WITH (FORMAT CSV, HEADER TRUE)
+\COPY bronze.age_group (id, name) FROM 'data/age_group.csv' WITH (FORMAT CSV, HEADER TRUE)
+\COPY bronze.genres (id, name) FROM 'data/genres.csv' WITH (FORMAT CSV, HEADER TRUE)
+\COPY bronze.genres_movies (id, movie_id, genre_id) FROM 'data/genres_movies.csv' WITH (FORMAT CSV, HEADER TRUE);
+
+
+
+
+--DROP TABLE;: vymaze aj tabulka aj stlpce
+COMMIT;
